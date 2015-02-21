@@ -14,18 +14,37 @@ import (
 )
 
 func usage() {
-	fmt.Printf("usage: %s --template [template file] --wordlist [word list directory]\n", os.Args[0])
+	fmt.Printf("usage: %s <OPTIONS...> [template file] [wordlist]\n", os.Args[0])
+	fmt.Println("")
+	fmt.Println("Reads [template file] and all *.txt files in the given [wordlist] directory,")
+	fmt.Println("and produces random text, recursively replacing anything in double-curly-")
+	fmt.Println("braces with a random item from a file of the same name.")
+	fmt.Println("")
+	fmt.Println("Unfortunately, options must be provided before the template file and word")
+	fmt.Println("list.  This is a limitation of the effective, but simple, Go flag library.")
+	fmt.Println("")
+	fmt.Println("Options:")
+	flag.CommandLine.VisitAll(func (f *flag.Flag) {
+		prefix := fmt.Sprintf("  --%s", f.Name)
+		fmt.Printf("%-16s %s (defaults to %s)\n", prefix, f.Usage, f.DefValue)
+	})
 	os.Exit(1)
 }
 
 func main() {
 	var templateFilename, wordlistDirectoryName string
-	parseCLI(&templateFilename, &wordlistDirectoryName)
+	var seed int64
+
+	templateFilename, wordlistDirectoryName, seed = parseCLI()
 	template := readTemplate(templateFilename)
 	lists := readWordlists(wordlistDirectoryName)
 
-	// Seed the PRNG so stuff is unique
-	rand.Seed(time.Now().UTC().UnixNano())
+	// If no seed was passed in, generate one
+	if seed == 0 {
+		seed = time.Now().UTC().UnixNano()
+	}
+
+	rand.Seed(seed)
 
 	// Read the template and populate data
 	tvarRegex := regexp.MustCompile(`{{([^}]*)}}`)
@@ -68,14 +87,25 @@ func main() {
 	fmt.Println(template)
 }
 
-func parseCLI(t *string, w *string) {
-	flag.StringVar(t, "template", "", "Template file for building random text")
-	flag.StringVar(w, "wordlist", "", "Directory where word lists are located")
+func parseCLI() (string, string, int64) {
+	var s int64
+
+	flag.Usage = usage
+	flag.Int64Var(&s, "seed", 0, "Seed for PRNG")
 	flag.Parse()
 
-	if *t == "" || *w == "" {
+	if len(flag.Args()) < 2 {
 		usage()
 	}
+
+	t := flag.Arg(0)
+	w := flag.Arg(1)
+
+	if t == "" || w == "" {
+		usage()
+	}
+
+	return t, w, s
 }
 
 func readTemplate(filename string) string {
