@@ -15,6 +15,7 @@ import (
 
 var opts struct {
 	Seed int64 `short:"s" long:"seed" description:"Seed for PRNG"`
+	StringListOverride map[string]string `long:"value" description:"Override a word list with a specific value"`
 }
 
 var parser = flags.NewParser(&opts, flags.PassDoubleDash|flags.HelpFlag)
@@ -33,7 +34,13 @@ with a random item from a wordlist file of the same name.
 
 e.g., if your template includes {{noun}} somewhere in it, a file called
 [wordlist]/noun.txt is expected to exist, and one of the lines will be put in
-place of the template's "{{noun}}" text.`
+place of the template's "{{noun}}" text.
+
+If desired, instead of a wordlist, a value can be passed on the command line,
+but this only allows a single value for a given wordlist, so wouldn't work as
+well for parts of speech as for single-use terms like {{nameofboy}}.
+
+e.g.: --value "nameofboy:Nerd Master"`
 	args, err := parser.Parse()
 	if err != nil || len(args) != 2 {
 		usage()
@@ -41,6 +48,11 @@ place of the template's "{{noun}}" text.`
 
 	template := readTemplate(args[0])
 	lists := readWordlists(args[1])
+
+	for listname, value := range opts.StringListOverride {
+		lists[listname] = NewStringList()
+		lists[listname].AddString(value)
+	}
 
 	// If no seed was passed in, generate one
 	if opts.Seed == 0 {
