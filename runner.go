@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	flags "github.com/jessevdk/go-flags"
+	"github.com/jessevdk/go-flags"
 	"io/ioutil"
 	"math/rand"
 	"os"
