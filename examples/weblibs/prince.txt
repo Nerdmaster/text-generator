@@ -1,0 +1,79 @@
+The Prince and the Peasant
+=====
+
+It was a dark and {{adjective}} night, and the beautiful peasant girl,
+{{femalename->$girl}}, slipped and fell.  Luckily for her, Prince
+{{malename->$boy}} was in the near vicinity...
+
+
+
+Prince {{$boy}}: Wow, that looked pretty painful.  Are you all right?
+
+{{$girl}}: Well, I'm a bit dirty, and I {{verbed}} my dress, but I think I'll
+manage.  Thanks though.
+
+Prince {{$boy}}: Well, I can't just leave you here like this.  You will come
+with me to my castle, and you can dry off and change your {{nouns}} if you wish.
+But I can't leave you to {{verb}} all alone!
+
+{{$girl}}: Oh, I don't know...  I'm supposed to be out gathering fruits and
+{{foods}}, and my father will be expecting me back very soon.
+
+Prince {{$boy}}: But you must!  I could not bear to leave here without you.
+You see, I have been in love with you since I first laid eyes on you.
+
+{{$girl}}: How exciting!  Then you must be--
+
+Prince {{$boy}}: That's right, I'm {{$boy}}, Prince of {{place}}, and I've
+spent the last {{number}} years looking for you again.  Will you marry me,
+{{femalename->$othergirl}}?
+
+{{$girl}}: Uh... you know, I'd like to, but you see, I'm {{$girl}}.  I think
+you're looking for my sister, the lady {{$othergirl}}.
+
+Prince {{$boy}}: True enough, I thought you were her.  No matter, you were my
+second choice anyhow.  Follow me!
+
+{{$girl}}: Well, my husband would probably disapprove, but okay!
+
+
+
+Back at the castle, the prince makes his move...
+
+
+
+Prince {{$boy}} (in a very {{adjective}} tone): Well, {{$girl}}, are
+you... {{adjective}}?
+
+{{$girl}}: No, not really. The way you keep {{verbing}} me with your eyes is a
+little bit creepy, and I don't think your "it's too hot, so I'm gonna just take
+off my {{noun}}" speech is very amusing at all.
+
+Prince {{$boy}}: I see.  Well, perhaps some wine or {{liquid}} would make you
+feel better?  Are you hungry?  Maybe some oysters or {{foods->$aphro}} would
+better suit you?  They say that {{$aphro}} are natural aphrodisiacs, you
+know...
+
+{{$girl}}: No, thank you.  I think I'm just going to go home.  It's been...
+fun.
+
+Prince {{$boy}}: Ah.  Well, I guess I'll have to imprison you then.  Guards!
+
+{{$girl}} (drawing a large, {{adjective}} sword): HA!  Your {{nouns}}
+can't help you now!  I will {{verb}} you!
+
+Prince {{$boy}}: Oh no, you're--
+
+{{$girl}}: THAT'S RIGHT!  I'm your father's secret assassin, and I was sent
+here to kill you for being so {{adjective}}.
+
+Prince {{$boy}}: Oh, sorry.  I thought you were the daughter of that farmer I
+brutally {{verbed}} just last winter.  Carry on, then.
+
+{{$girl}} (killing {{$boy}}): Right.  {{exclamation}}!!
+
+
+
+And so the prince was killed, and {{$girl}}, who was really a secret spy for
+{{place}} and not the king's assassin (for the king had no such assassin),
+lived {{adverb}} ever after.

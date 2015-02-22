@@ -1,0 +1,9 @@
+cat
+dog
+tree
+chicken
+barn
+house
+car
+hairy yak
+flying pig

@@ -1,0 +1,9 @@
+cats
+dogs
+trees
+chickens
+barns
+houses
+cars
+hairy yaks
+flying pigs
