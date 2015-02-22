@@ -99,3 +99,33 @@ And passing in a specific value to override a wordlist entirely:
 ```bash
   ./bin/textgen examples/weblibs/prince.txt examples/weblibs/wordlists --value "malename:Johnny Five"
 ```
+
+What about an example of more complexiousness?  Say, for instance, a
+**procedurally-generated story**?!?  Look no further than the BRAND NEW
+example, "story":
+
+```bash
+  ./bin/textgen examples/story/story.txt examples/story/wordlists/
+```
+
+You might get a story like this:
+
+> Call me Nerdmaster.  Or Queequeg, I don't really care.  The point is, there
+> was a fire inside my tree and it kept me warmer than if I were out in the
+> angry rain, okay?!?  I was reading one of my favorite pop-up books, "The cat
+> and the barn", when the fire went out.  I sobbed for hours, terrified, and
+> screamed for my mommy.  But it was all just a dream!  Oh, how content I felt
+> when I woke up!
+
+But it could also be RADICALLY DIFFERENT, such as:
+
+> Well, the weather outside was blue, but inside it was so happy that I just
+> sat by the fire.  Then, the fire simply stopped.  There's no other way to put
+> it.  I sat there in the cold, dark, angry room and figured I had no more then
+> 3 seconds before I succumbed to insanity.  But then I woke up.  It had only
+> been a dream!  Of course, I was still in the Nazi torture cat, but that's
+> better than being in a cold, dark, silly room during a storm.
+
+OMFG THE SAME GENERAL STORY WITH DIFFERENT SENTENCE STRUCTURE THIS IS AMAZING.
+
+I hope you enjoy this {{adjective}} {{noun}} I've created for you.

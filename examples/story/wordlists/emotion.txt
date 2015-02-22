@@ -1,0 +1,7 @@
+despair
+joy
+fear
+terror
+anger
+happiness
+contentment
