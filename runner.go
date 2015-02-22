@@ -1,8 +1,8 @@
 package main
 
 import (
-	"flag"
 	"fmt"
+	flags "github.com/jessevdk/go-flags"
 	"io/ioutil"
 	"math/rand"
 	"os"
@@ -13,38 +13,41 @@ import (
 	"time"
 )
 
+var opts struct {
+	Seed int64 `short:"s" long:"seed" description:"Seed for PRNG"`
+}
+
+var parser = flags.NewParser(&opts, flags.PassDoubleDash|flags.HelpFlag)
+
 func usage() {
-	fmt.Printf("usage: %s <OPTIONS...> [template file] [wordlist]\n", os.Args[0])
-	fmt.Println("")
-	fmt.Println("Reads [template file] and all *.txt files in the given [wordlist] directory,")
-	fmt.Println("and produces random text, recursively replacing anything in double-curly-")
-	fmt.Println("braces with a random item from a file of the same name.")
-	fmt.Println("")
-	fmt.Println("Unfortunately, options must be provided before the template file and word")
-	fmt.Println("list.  This is a limitation of the effective, but simple, Go flag library.")
-	fmt.Println("")
-	fmt.Println("Options:")
-	flag.CommandLine.VisitAll(func (f *flag.Flag) {
-		prefix := fmt.Sprintf("  --%s", f.Name)
-		fmt.Printf("%-16s %s (defaults to %s)\n", prefix, f.Usage, f.DefValue)
-	})
+	parser.WriteHelp(os.Stderr)
 	os.Exit(1)
 }
 
 func main() {
-	var templateFilename, wordlistDirectoryName string
-	var seed int64
+	parser.Usage = `[template file] [wordlist] [OPTIONS]
 
-	templateFilename, wordlistDirectoryName, seed = parseCLI()
-	template := readTemplate(templateFilename)
-	lists := readWordlists(wordlistDirectoryName)
+Reads [template file] and all *.txt files in the given [wordlist] directory,
+and produces random text, recursively replacing anything in double-curly-braces
+with a random item from a wordlist file of the same name.
 
-	// If no seed was passed in, generate one
-	if seed == 0 {
-		seed = time.Now().UTC().UnixNano()
+e.g., if your template includes {{noun}} somewhere in it, a file called
+[wordlist]/noun.txt is expected to exist, and one of the lines will be put in
+place of the template's "{{noun}}" text.`
+	args, err := parser.Parse()
+	if err != nil || len(args) != 2 {
+		usage()
 	}
 
-	rand.Seed(seed)
+	template := readTemplate(args[0])
+	lists := readWordlists(args[1])
+
+	// If no seed was passed in, generate one
+	if opts.Seed == 0 {
+		opts.Seed = time.Now().UTC().UnixNano()
+	}
+
+	rand.Seed(opts.Seed)
 
 	// Read the template and populate data
 	tvarRegex := regexp.MustCompile(`{{([^}]*)}}`)
@@ -85,27 +88,6 @@ func main() {
 	}
 
 	fmt.Println(template)
-}
-
-func parseCLI() (string, string, int64) {
-	var s int64
-
-	flag.Usage = usage
-	flag.Int64Var(&s, "seed", 0, "Seed for PRNG")
-	flag.Parse()
-
-	if len(flag.Args()) < 2 {
-		usage()
-	}
-
-	t := flag.Arg(0)
-	w := flag.Arg(1)
-
-	if t == "" || w == "" {
-		usage()
-	}
-
-	return t, w, s
 }
 
 func readTemplate(filename string) string {
