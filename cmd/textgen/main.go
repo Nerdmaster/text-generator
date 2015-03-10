@@ -5,6 +5,7 @@ import (
 	"github.com/jessevdk/go-flags"
 	"io/ioutil"
 	"math/rand"
+	"nerdbucket.com/go/text-generator/lib/stringlist"
 	"os"
 	"path"
 	"path/filepath"
@@ -14,7 +15,7 @@ import (
 )
 
 var opts struct {
-	Seed int64 `short:"s" long:"seed" description:"Seed for PRNG"`
+	Seed               int64             `short:"s" long:"seed" description:"Seed for PRNG"`
 	StringListOverride map[string]string `long:"value" description:"Override a word list with a specific value"`
 }
 
@@ -50,8 +51,8 @@ e.g.: --value "nameofboy:Nerd Master"`
 	lists := readWordlists(args[1])
 
 	for listname, value := range opts.StringListOverride {
-		lists[listname] = NewStringList()
-		lists[listname].AddString(value)
+		lists[listname] = stringlist.MakeRandomizer()
+		lists[listname].Append(value)
 	}
 
 	// If no seed was passed in, generate one
@@ -88,12 +89,12 @@ e.g.: --value "nameofboy:Nerd Master"`
 		if list == nil {
 			fmt.Printf("ERROR: List '%s' needed but doesn't exist\n", listname)
 		} else {
-			replacementValue = list.RandomString()
+			replacementValue = list.Next()
 		}
 
 		if variable != "" {
-			lists[variable] = NewStringList()
-			lists[variable].AddString(replacementValue)
+			lists[variable] = stringlist.MakeRandomizer()
+			lists[variable].Append(replacementValue)
 		}
 
 		template = strings.Replace(template, fullMatch, replacementValue, 1)
@@ -112,10 +113,10 @@ func readTemplate(filename string) string {
 	return string(fileBytes)
 }
 
-func readWordlists(dirname string) map[string]*StringList {
+func readWordlists(dirname string) map[string]*stringlist.Randomizer {
 	// Maps a word type ("noun", etc) to a string list containing possible values
 	// for the given word type
-	lists := make(map[string]*StringList)
+	lists := make(map[string]*stringlist.Randomizer)
 
 	// Read in all *.txt files to populate string lists
 	dataFiles, err := filepath.Glob(fmt.Sprintf("%s/*.txt", dirname))
@@ -129,18 +130,18 @@ func readWordlists(dirname string) map[string]*StringList {
 		fileBytes, _ := ioutil.ReadFile(file)
 		fileData := string(fileBytes)
 		listname := strings.Replace(path.Base(file), ".txt", "", -1)
-		lists[listname] = NewStringList()
+		lists[listname] = stringlist.MakeRandomizer()
 
 		for _, str := range strings.Split(fileData, "\n") {
 			if strings.TrimSpace(str) != "" {
-				lists[listname].AddString(str)
+				lists[listname].Append(str)
 			}
 		}
 	}
 
 	// Throw out errors if any lists are empty
 	for listname, list := range lists {
-		if list.masterList.Len() == 0 {
+		if list.IsEmpty() {
 			fmt.Printf("FATAL: List '%s' exists but has no data!\n", listname)
 			os.Exit(1)
 		}
