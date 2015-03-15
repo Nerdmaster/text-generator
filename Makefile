@@ -1,4 +1,4 @@
-SRCS=cmd/textgen/main.go lib/stringlist/list.go lib/stringlist/randomizer.go
+SRCS=cmd/textgen/main.go lib/stringlist/*.go lib/template/*.go
 
 .PHONY : all
 

@@ -6,10 +6,10 @@ import (
 	"io/ioutil"
 	"math/rand"
 	"nerdbucket.com/go/text-generator/lib/stringlist"
+	"nerdbucket.com/go/text-generator/lib/template"
 	"os"
 	"path"
 	"path/filepath"
-	"regexp"
 	"strings"
 	"time"
 )
@@ -47,12 +47,17 @@ e.g.: --value "nameofboy:Nerd Master"`
 		usage()
 	}
 
-	template := readTemplate(args[0])
-	lists := readWordlists(args[1])
+	t, err := template.FromFile(args[0])
+	if err != nil {
+		fmt.Printf("Error trying to read the template file '%s': %s", args[0], err)
+		os.Exit(1)
+	}
 
-	for listname, value := range opts.StringListOverride {
-		lists[listname] = stringlist.MakeRandomizer()
-		lists[listname].Append(value)
+	buildWordlists(t, args[1])
+
+	// Load overrides into SingleValueGenerators
+	for name, value := range opts.StringListOverride {
+		t.Generators[name] = &template.SingleValueGenerator{Value: value}
 	}
 
 	// If no seed was passed in, generate one
@@ -62,62 +67,10 @@ e.g.: --value "nameofboy:Nerd Master"`
 
 	rand.Seed(opts.Seed)
 
-	// Read the template and populate data
-	tvarRegex := regexp.MustCompile(`{{([^}]*)}}`)
-	for {
-		foundStrings := tvarRegex.FindStringSubmatch(template)
-		if foundStrings == nil {
-			break
-		}
-
-		// Set up a variable to hold the replacement value
-		replacementValue := ""
-
-		// Store the full match in an alias for easier replacing later
-		fullMatch := foundStrings[0]
-
-		// Handle possible variable assignments
-		data := strings.Split(foundStrings[1], "->")
-		listname := data[0]
-		variable := ""
-		if len(data) == 2 {
-			variable = data[1]
-		}
-
-		// See if the list exists and warn if not
-		list := lists[listname]
-		if list == nil {
-			fmt.Printf("ERROR: List '%s' needed but doesn't exist\n", listname)
-		} else {
-			replacementValue = list.Next()
-		}
-
-		if variable != "" {
-			lists[variable] = stringlist.MakeRandomizer()
-			lists[variable].Append(replacementValue)
-		}
-
-		template = strings.Replace(template, fullMatch, replacementValue, 1)
-	}
-
-	fmt.Println(template)
+	fmt.Println(t.Execute())
 }
 
-func readTemplate(filename string) string {
-	fileBytes, err := ioutil.ReadFile(filename)
-	if err != nil {
-		fmt.Printf("Error trying to read the template file '%s': %s", filename, err)
-		os.Exit(1)
-	}
-
-	return string(fileBytes)
-}
-
-func readWordlists(dirname string) map[string]*stringlist.Randomizer {
-	// Maps a word type ("noun", etc) to a string list containing possible values
-	// for the given word type
-	lists := make(map[string]*stringlist.Randomizer)
-
+func buildWordlists(t *template.Template, dirname string) {
 	// Read in all *.txt files to populate string lists
 	dataFiles, err := filepath.Glob(fmt.Sprintf("%s/*.txt", dirname))
 	if err != nil {
@@ -130,22 +83,18 @@ func readWordlists(dirname string) map[string]*stringlist.Randomizer {
 		fileBytes, _ := ioutil.ReadFile(file)
 		fileData := string(fileBytes)
 		listname := strings.Replace(path.Base(file), ".txt", "", -1)
-		lists[listname] = stringlist.MakeRandomizer()
+		list := stringlist.MakeRandomizer()
+		t.Generators[listname] = list
 
 		for _, str := range strings.Split(fileData, "\n") {
 			if strings.TrimSpace(str) != "" {
-				lists[listname].Append(str)
+				list.Append(str)
 			}
 		}
-	}
 
-	// Throw out errors if any lists are empty
-	for listname, list := range lists {
 		if list.IsEmpty() {
 			fmt.Printf("FATAL: List '%s' exists but has no data!\n", listname)
 			os.Exit(1)
 		}
 	}
-
-	return lists
 }
