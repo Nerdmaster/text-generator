@@ -39,6 +39,17 @@ func FromFile(filename string) (*Template, error) {
 	return FromString(string(fileBytes)), nil
 }
 
+// Pulls the next string for the requested generator, returning an error and ""
+// if no generator exists
+func (t *Template) GenerateString(name string) (string, error) {
+	generator := t.Generators[name]
+	if generator == nil {
+		return "", fmt.Errorf("No generator named '%s' exists", name)
+	}
+
+	return generator.Next(), nil
+}
+
 // Reads the template and populate data
 func (t *Template) Execute() string {
 	out := t.Text
@@ -47,9 +58,6 @@ func (t *Template) Execute() string {
 		if foundStrings == nil {
 			break
 		}
-
-		// Set up a variable to hold the replacement value
-		replacementValue := ""
 
 		// Store the full match in an alias for easier replacing later
 		fullMatch := foundStrings[0]
@@ -63,11 +71,9 @@ func (t *Template) Execute() string {
 		}
 
 		// See if the generator exists and warn if not
-		generator := t.Generators[generatorName]
-		if generator == nil {
-			t.Log(fmt.Sprintf("ERROR: Generator '%s' needed but doesn't exist\n", generatorName))
-		} else {
-			replacementValue = generator.Next()
+		replacementValue, err := t.GenerateString(generatorName)
+		if err != nil {
+			t.Log(fmt.Sprintf("ERROR: %s\n", err))
 		}
 
 		if variable != "" {
