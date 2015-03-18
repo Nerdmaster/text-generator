@@ -87,8 +87,7 @@ yours truly's website's games's page:
   ./bin/textgen examples/weblibs/prince.txt examples/weblibs/wordlists
 ```
 
-Using a specific seed for reproducible results (note that if you change the
-wordlists, your results will change no matter the seed):
+Using a specific seed for reproducible results:
 
 ```bash
   ./bin/textgen examples/weblibs/prince.txt examples/weblibs/wordlists --seed 5
