@@ -52,20 +52,33 @@ func (t *Template) Execute() string {
 	sf := NewSubstitutionReplacer(t.Text)
 
 	for sf.Find() {
-		data := strings.Split(sf.Identifier(), "->")
-		name := data[0]
+		name, variable := splitSubstitutionIdentifier(sf.Identifier())
 		value, err := t.GenerateString(name)
-
 		if err != nil {
 			t.Log(fmt.Sprintf("ERROR: %s", err))
 		}
-
-		if len(data) == 2 {
-			t.Generators[data[1]] = &SingleValueGenerator{Value: value}
-		}
-
+		t.AssignVariable(variable, value)
 		sf.Replace(value)
 	}
 
 	return sf.Text()
+}
+
+// Stores a new SingleValueGenerator for the given variable name to return the
+// specified value.  Nothing happens if variable is a blank string.
+func (t *Template) AssignVariable(variable, value string) {
+	if variable != "" {
+		t.Generators[variable] = &SingleValueGenerator{Value: value}
+	}
+}
+
+// Converts a substitution identifier into the generator name and possibly a
+// variable name in which to store the generated data
+func splitSubstitutionIdentifier(identifier string) (string, string) {
+	data := strings.Split(identifier, "->")
+	if len(data) < 2 {
+		return data[0], ""
+	}
+
+	return data[0], data[1]
 }
