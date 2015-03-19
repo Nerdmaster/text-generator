@@ -4,17 +4,14 @@ import (
 	"fmt"
 	"io/ioutil"
 	"nerdbucket.com/go/text-generator/lib/stringlist"
-	"regexp"
 	"strings"
 )
 
 type Template struct {
-	Log func(string)
-	Text string
+	Log        func(string)
+	Text       string
 	Generators stringlist.GeneratorMap
 }
-
-var tvarRegex = regexp.MustCompile(`{{([^}]*)}}`)
 
 func dumblog(s string) {
 	fmt.Printf(s)
@@ -52,36 +49,23 @@ func (t *Template) GenerateString(name string) (string, error) {
 
 // Reads the template and populate data
 func (t *Template) Execute() string {
-	out := t.Text
-	for {
-		foundStrings := tvarRegex.FindStringSubmatch(out)
-		if foundStrings == nil {
-			break
-		}
+	sf := NewSubstitutionReplacer(t.Text)
 
-		// Store the full match in an alias for easier replacing later
-		fullMatch := foundStrings[0]
+	for sf.Find() {
+		data := strings.Split(sf.Identifier(), "->")
+		name := data[0]
+		value, err := t.GenerateString(name)
 
-		// Handle possible variable assignments
-		data := strings.Split(foundStrings[1], "->")
-		generatorName := data[0]
-		variable := ""
-		if len(data) == 2 {
-			variable = data[1]
-		}
-
-		// See if the generator exists and warn if not
-		replacementValue, err := t.GenerateString(generatorName)
 		if err != nil {
-			t.Log(fmt.Sprintf("ERROR: %s\n", err))
+			t.Log(fmt.Sprintf("ERROR: %s", err))
 		}
 
-		if variable != "" {
-			t.Generators[variable] = &SingleValueGenerator{Value: replacementValue}
+		if len(data) == 2 {
+			t.Generators[data[1]] = &SingleValueGenerator{Value: value}
 		}
 
-		out = strings.Replace(out, fullMatch, replacementValue, 1)
+		sf.Replace(value)
 	}
 
-	return out
+	return sf.Text()
 }
