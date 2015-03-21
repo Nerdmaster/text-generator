@@ -1,9 +1,6 @@
-package stringlist
+package generator
 
-import (
-	"strings"
-	"testing"
-)
+import "testing"
 
 func assertEqualS(expected, actual string, message string, t *testing.T) {
 	if expected != actual {
@@ -18,13 +15,10 @@ func assertEqualI(expected, actual int, message string, t *testing.T) {
 }
 
 func TestStuff(t *testing.T) {
-	rnd := MakeRandomizer()
+	rnd := MakeRandom()
 	rnd.Append("string 1")
 	rnd.Append("string 2")
 	rnd.Append("string 3")
-
-	masterListString := strings.Join(rnd.masterList.data, ",")
-	assertEqualS("string 1,string 2,string 3", masterListString, "Stringlist value", t)
 
 	assertEqualI(3, rnd.masterList.Len(), "Master list size should be 3", t)
 	assertEqualI(0, rnd.options.Len(), "Options should be empty at first", t)
