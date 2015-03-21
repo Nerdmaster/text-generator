@@ -1,6 +1,6 @@
 SRCS=cmd/textgen/main.go lib/stringlist/*.go lib/template/*.go
 
-.PHONY : all
+.PHONY : all format clean
 
 all: bin/textgen
 
@@ -10,3 +10,6 @@ bin/textgen: $(SRCS)
 
 clean:
 	rm ./bin/*
+
+format:
+	find . -name "*.go" | xargs gofmt -l -w -s
