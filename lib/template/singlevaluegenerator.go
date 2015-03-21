@@ -8,4 +8,3 @@ type SingleValueGenerator struct {
 func (s *SingleValueGenerator) Next() string {
 	return s.Value
 }
-
