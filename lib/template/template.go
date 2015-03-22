@@ -1,32 +1,47 @@
 package template // import "nerdbucket.com/go/text-generator/lib/template"
 
 import (
-	"fmt"
 	"io/ioutil"
-	"nerdbucket.com/go/text-generator/lib/stringlist"
-	"strings"
+	"nerdbucket.com/go/text-generator/lib/filter"
 )
 
+type filterList []filter.Filterable
+
+// A Template is a container for a text value and one or more filters
+// (implementing filter.Filterable) the text should be run through.  The
+// template itself doesn't have to be in any specific format, so long as it
+// makes sense for whatever filters are attached to it.
+//
+// The order of a template's filters matter.  For instance:
+//
+// - a template is create with the string "Always add an extra article"
+// - filter A replaces all occurrences of uppercase "A" with "@"
+// - filter B uppercases all letters in a string
+//
+// If you add filter A, then filter B, template.Execute() will return:
+//     "@LWAYS ADD AN EXTRA ARTICLE"
+//
+// If you add B first, then A, template.Execute() will instead return:
+//     "@LW@YS @DD @N EXTR@ @RTICLE"
 type Template struct {
-	Log        func(string)
-	Text       string
-	Generators stringlist.GeneratorMap
+	Text    string
+	Filters filterList
 }
 
-func dumblog(s string) {
-	fmt.Printf(s)
-}
-
+// New returns an empty template with no text or filters
 func New() *Template {
-	return &Template{Log: dumblog, Generators: make(stringlist.GeneratorMap)}
+	return &Template{Filters: make(filterList, 0)}
 }
 
+// FromString sets up a new template using the given string as its source text
 func FromString(text string) *Template {
 	t := New()
 	t.Text = text
 	return t
 }
 
+// FromFile sets up and returns a new template by reading the given filename
+// and converting its contents into a string
 func FromFile(filename string) (*Template, error) {
 	fileBytes, err := ioutil.ReadFile(filename)
 	if err != nil {
@@ -36,49 +51,17 @@ func FromFile(filename string) (*Template, error) {
 	return FromString(string(fileBytes)), nil
 }
 
-// Pulls the next string for the requested generator, returning an error and ""
-// if no generator exists
-func (t *Template) GenerateString(name string) (string, error) {
-	generator := t.Generators[name]
-	if generator == nil {
-		return "", fmt.Errorf("No generator named '%s' exists", name)
-	}
-
-	return generator.Next(), nil
+// AddFilter puts a filter into the list of those run on template execution
+func (t *Template) AddFilter(f filter.Filterable) {
+	t.Filters = append(t.Filters, f)
 }
 
-// Reads the template and populate data
+// Execute runs through all filters in sequence
 func (t *Template) Execute() string {
-	sf := NewSubstitutionReplacer(t.Text)
-
-	for sf.Find() {
-		name, variable := splitSubstitutionIdentifier(sf.Identifier())
-		value, err := t.GenerateString(name)
-		if err != nil {
-			t.Log(fmt.Sprintf("ERROR: %s", err))
-		}
-		t.AssignVariable(variable, value)
-		sf.Replace(value)
+	out := t.Text
+	for _, f := range t.Filters {
+		out = f.Filter(out)
 	}
 
-	return sf.Text()
-}
-
-// Stores a new SingleValueGenerator for the given variable name to return the
-// specified value.  Nothing happens if variable is a blank string.
-func (t *Template) AssignVariable(variable, value string) {
-	if variable != "" {
-		t.Generators[variable] = &SingleValueGenerator{Value: value}
-	}
-}
-
-// Converts a substitution identifier into the generator name and possibly a
-// variable name in which to store the generated data
-func splitSubstitutionIdentifier(identifier string) (string, string) {
-	data := strings.Split(identifier, "->")
-	if len(data) < 2 {
-		return data[0], ""
-	}
-
-	return data[0], data[1]
+	return out
 }
