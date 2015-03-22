@@ -14,7 +14,22 @@ var MakeNullGenerator = func(id string) generator.Generator {
 
 // Substitution is a type of filter built to convert special tokens wrapped in
 // double-curly-braces into text via a Generator.  Implements the Filterable
-// interface.
+// interface for use in templates.
+//
+// The Substitution filter uses a finder that recognizes the "stabby" syntax
+// for setting a static value.  i.e., if you have {{foo->$foo}}, the value will
+// be pulled from a generator named "foo" via the GetGenerator function, and
+// then it will assign a "$foo" as a static generator that always returns that
+// same value.  This allows for a substitution with a certain level of context.
+// For instance:
+//
+//     {{boyname->$boy}}: Hello, my name is {{$boy}}
+//     {{girlname->$girl}}: Hi, {{$boy}}, I'm {{$girl}}
+//     {{boyname}}: You guys are lame, I'm gonna go to a different party
+//
+// This will result in all occurrences of {{$boy}} being the same "boyname" as
+// the first one generated, while the last line will use a different "boyname"
+// value (assuming the assigned generator has an extra value).
 type Substitution struct {
 	generators           generator.Map
 	NullGeneratorFactory func(string) generator.Generator
