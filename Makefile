@@ -21,3 +21,6 @@ format:
 
 lint:
 	golint ./lib/...
+
+test:
+	go test ./lib/...
