@@ -20,11 +20,12 @@ type Substitution struct {
 	NullGeneratorFactory func(string) generator.Generator
 }
 
+// New returns a new Substitution with the null generator factory preset
 func New() *Substitution {
 	return &Substitution{generators: make(generator.Map), NullGeneratorFactory: MakeNullGenerator}
 }
 
-// Stores a new generator in the generators map, ignoring requests for setting
+// SetGenerator stores a new generator in the generators map, ignoring requests for setting
 // a generator on ""
 func (s *Substitution) SetGenerator(name string, g generator.Generator) {
 	if name == "" {
@@ -34,12 +35,12 @@ func (s *Substitution) SetGenerator(name string, g generator.Generator) {
 	s.generators[name] = g
 }
 
-// Stores a static value for variables and other "generate once" situations.
+// SetValue stores a static value for variables and other "generate once" situations.
 func (s *Substitution) SetValue(name, value string) {
 	s.SetGenerator(name, &generator.Static{Value: value})
 }
 
-// Returns the named generator or nullGenerator if no generator exists for the
+// GetGenerator returns the named generator or nullGenerator if no generator exists for the
 // given id
 func (s *Substitution) GetGenerator(id string) generator.Generator {
 	g := s.generators[id]
@@ -50,11 +51,13 @@ func (s *Substitution) GetGenerator(id string) generator.Generator {
 	return g
 }
 
+// Filter finds all double-curly-brace tokens and replaces them with a value
+// from the appropriate generator
 func (s *Substitution) Filter(text string) string {
 	f := makeFinder(&text)
 
 	for f.Find() {
-		replacement := s.GetGenerator(f.Id()).Next()
+		replacement := s.GetGenerator(f.ID()).Next()
 		s.SetValue(f.VarName(), replacement)
 		text = strings.Replace(text, f.FullText(), replacement, 1)
 	}

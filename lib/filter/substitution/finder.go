@@ -38,8 +38,8 @@ func (f *finder) Find() bool {
 }
 
 // Returns the last identifier found
-func (f *finder) Id() string {
-	return f.match.Id
+func (f *finder) ID() string {
+	return f.match.ID
 }
 
 // Returns the last variable name found
