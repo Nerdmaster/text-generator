@@ -78,3 +78,18 @@ func TestWithNesting(t *testing.T) {
 	sub.SetValue("number3", "3")
 	assertEqualS("Testing this is one, this is two or 3", sub.Filter(input), "Filter replaces nested text", t)
 }
+
+func TestCase(t *testing.T) {
+	sub := New()
+	sub.SetValue("TeSt", "this is my test")
+	assertEqualS("this is my test", sub.Filter("{{test}}"), "Filter stored 'TeSt' without case", t)
+	assertEqualS("This is my test", sub.Filter("{{Test}}"), "Uppercased first rune", t)
+	assertEqualS("THIS IS MY TEST", sub.Filter("{{TEST}}"), "Uppercased whole string", t)
+}
+
+func TestCaseForVariables(t *testing.T) {
+	sub := New()
+	input := `{{test->$BlAh}} {{$blah}} {{$Blah}} {{$BLAH}}`
+	sub.SetValue("test", "test")
+	assertEqualS("test test Test TEST", sub.Filter(input), "Variable cases", t)
+}
