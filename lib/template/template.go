@@ -14,9 +14,9 @@ type filterList []filter.Filterable
 //
 // The order of a template's filters matter.  For instance:
 //
-// - a template is create with the string "Always add an extra article"
-// - filter A replaces all occurrences of uppercase "A" with "@"
-// - filter B uppercases all letters in a string
+//     - a template is created with the string "Always add an extra article"
+//     - filter A replaces all occurrences of uppercase "A" with "@"
+//     - filter B uppercases all letters in a string
 //
 // If you add filter A, then filter B, template.Execute() will return:
 //     "@LWAYS ADD AN EXTRA ARTICLE"
