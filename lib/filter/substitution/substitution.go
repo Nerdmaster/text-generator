@@ -17,11 +17,12 @@ var MakeNullGenerator = func(id string) generator.Generator {
 // interface for use in templates.
 //
 // The Substitution filter uses a finder that recognizes the "stabby" syntax
-// for setting a static value.  i.e., if you have {{foo->$foo}}, the value will
-// be pulled from a generator named "foo" via the GetGenerator function, and
-// then it will assign a "$foo" as a static generator that always returns that
-// same value.  This allows for a substitution with a certain level of context.
-// For instance:
+// for setting a static value.  The syntax must be precisely
+// {{NAME->$VARIABLE}}.  i.e., if you have {{foo->$foo}}, the value will be
+// pulled from a generator named "foo" via the GetGenerator function, and then
+// it will assign a "$foo" as a static generator that always returns that same
+// value.  This allows for a substitution with a certain level of context.  For
+// instance:
 //
 //     {{boyname->$boy}}: Hello, my name is {{$boy}}
 //     {{girlname->$girl}}: Hi, {{$boy}}, I'm {{$girl}}

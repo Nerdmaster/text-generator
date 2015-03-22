@@ -21,7 +21,7 @@ func newMatch(id string) match {
 // Splits the ID on "->" to check for variable assignment
 func (m *match) splitVarID() {
 	data := strings.Split(m.ID, "->")
-	if len(data) == 2 {
+	if len(data) == 2 && data[1][:1] == "$" {
 		m.ID = data[0]
 		m.VarName = data[1]
 	}
