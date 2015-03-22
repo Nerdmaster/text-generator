@@ -1,4 +1,9 @@
-SRCS=cmd/textgen/main.go lib/stringlist/*.go lib/template/*.go
+SRCS=cmd/textgen/main.go \
+	lib/stringlist/*.go \
+	lib/template/*.go \
+	lib/generator/*.go \
+	lib/filter/*.go \
+	lib/filter/substitution/*.go
 
 .PHONY : all format clean lint
 
