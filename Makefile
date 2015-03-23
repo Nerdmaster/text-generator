@@ -1,9 +1,9 @@
 SRCS=cmd/textgen/main.go \
-	lib/stringlist/*.go \
-	lib/template/*.go \
-	lib/generator/*.go \
-	lib/filter/*.go \
-	lib/filter/substitution/*.go
+	pkg/stringlist/*.go \
+	pkg/template/*.go \
+	pkg/generator/*.go \
+	pkg/filter/*.go \
+	pkg/filter/substitution/*.go
 
 .PHONY : all format clean lint
 
@@ -20,7 +20,7 @@ format:
 	find . -name "*.go" | xargs gofmt -l -w -s
 
 lint:
-	golint ./lib/...
+	golint ./pkg/...
 
 test:
-	go test ./lib/...
+	go test ./pkg/...

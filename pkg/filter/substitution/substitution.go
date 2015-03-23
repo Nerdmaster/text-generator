@@ -1,7 +1,7 @@
-package substitution // import "nerdbucket.com/go/text-generator/lib/filter/substitution"
+package substitution // import "nerdbucket.com/go/text-generator/pkg/filter/substitution"
 
 import (
-	"nerdbucket.com/go/text-generator/lib/generator"
+	"nerdbucket.com/go/text-generator/pkg/generator"
 	"strings"
 )
 

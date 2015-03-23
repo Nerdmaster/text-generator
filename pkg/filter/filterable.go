@@ -1,4 +1,4 @@
-package filter // import "nerdbucket.com/go/text-generator/lib/filter"
+package filter // import "nerdbucket.com/go/text-generator/pkg/filter"
 
 // Filterable types are used to convert text from one state into another
 type Filterable interface {
