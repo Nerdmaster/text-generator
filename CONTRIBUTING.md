@@ -70,10 +70,10 @@ Don't like it?  Go elsewhere.
 
 * Fork the repository
 * Create a nice workspace.  If you use `go get`, this is a bit weird:
-  * `go get nerdbucket.com/go/text-generator`
-  * `cd $GOPATH/src/nerdbucket.com/go/text-generator`
+  * `go get go.nerdbucket.com/text`
+  * `cd $GOPATH/src/go.nerdbucket.com/text`
   * `git remote rename origin upstream`
-  * `git remote add origin git@github.com:YOURNAME/text-generator.git`
+  * `git remote add origin git@github.com:YOURNAME/text.git`
   * `git checkout develop`
   * `git pull origin develop`
   * Don't blame me, this is due to the insanity of what could have been a good

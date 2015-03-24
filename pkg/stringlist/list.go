@@ -1,4 +1,4 @@
-package stringlist // import "nerdbucket.com/go/text-generator/pkg/stringlist"
+package stringlist // import "go.nerdbucket.com/text/pkg/stringlist"
 
 import "math/rand"
 

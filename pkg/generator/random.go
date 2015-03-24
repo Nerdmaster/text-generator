@@ -1,6 +1,6 @@
 package generator
 
-import "nerdbucket.com/go/text-generator/pkg/stringlist"
+import "go.nerdbucket.com/text/pkg/stringlist"
 
 // The Random generator produces a random sequence of a given stringlist, using
 // each string in the list exactly once before any single string is repeated

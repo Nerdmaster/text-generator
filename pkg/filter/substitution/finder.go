@@ -1,4 +1,4 @@
-package substitution // import "nerdbucket.com/go/text-generator/pkg/filter/substitution"
+package substitution // import "go.nerdbucket.com/text/pkg/filter/substitution"
 
 import "regexp"
 
