@@ -16,6 +16,17 @@ double-curly-braces is parsed, reading strings from a file of the same name in
 the wordlist directory.  i.e., if your template has {{noun}} in it, a random
 line from [wordlist directory]/noun.txt will be inserted in its place.
 
+Word lists are always lowercased.  Even if your template has {{nOUn}}, the file
+will still be noun.txt.  However, there are a few rules which are followed when
+the case matches certain patterns:
+
+- If the substitution name ("noun" in this case) is all-lowercase, the value
+  pulled from the word list is left as-is
+- If the substitution name is all-caps ("NOUN"), the value pulled from the word
+  list will be all-caps
+- If the substitution name's first letter is uppercase, but it isn't all caps,
+  the first letter in the word list value will be uppercased.
+
 Text will be parsed forever, until there are no occurrences of double curly
 braces.  This can be awesome for building random stories procedurally, as you
 can start with {{sentence-1}} and within sentence-1.txt, you can have various
