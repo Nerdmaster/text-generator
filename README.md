@@ -22,7 +22,7 @@ can start with {{sentence-1}} and within sentence-1.txt, you can have various
 ways of writing a similar opening sentence with other random variables:
 
     It was a {{adjective}} and stormy night.
-    Lightning etched it was across the {{adjective}} sky.
+    Lightning etched its way across the {{adjective}} sky.
 
 You could do something similar with an entire story, creating a slightly
 different version of the same general narrative.  If I get a better system in
