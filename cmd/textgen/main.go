@@ -3,11 +3,11 @@ package main
 import (
 	"fmt"
 	"github.com/jessevdk/go-flags"
-	"io/ioutil"
-	"math/rand"
 	"go.nerdbucket.com/text/pkg/filter/substitution"
 	"go.nerdbucket.com/text/pkg/generator"
 	"go.nerdbucket.com/text/pkg/template"
+	"io/ioutil"
+	"math/rand"
 	"os"
 	"path"
 	"path/filepath"

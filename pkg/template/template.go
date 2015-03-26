@@ -1,8 +1,8 @@
 package template // import "go.nerdbucket.com/text/pkg/template"
 
 import (
-	"io/ioutil"
 	"go.nerdbucket.com/text/pkg/filter"
+	"io/ioutil"
 )
 
 type filterList []filter.Filterable

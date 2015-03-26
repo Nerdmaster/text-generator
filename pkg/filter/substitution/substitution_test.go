@@ -1,8 +1,8 @@
 package substitution // import "go.nerdbucket.com/text/pkg/filter/substitution"
 
 import (
-	"math/rand"
 	"go.nerdbucket.com/text/pkg/generator"
+	"math/rand"
 	"testing"
 )
 
