@@ -92,22 +92,21 @@ Check out the source code and try out the example from a sweet, sweet weblib on
 yours truly's website's games's page:
 
 ```bash
-  git clone https://github.com/Nerdmaster/text-generator.git
-  cd text-generator
-  make
-  ./bin/textgen examples/weblibs/prince.txt examples/weblibs/wordlists
+  go get go.nerdbucket.com/text/cmd/textgen
+  cd $GOPATH/src/go.nerdbucket.com/text
+  $GOPATH/bin/textgen examples/weblibs/prince.txt examples/weblibs/wordlists
 ```
 
 Using a specific seed for reproducible results:
 
 ```bash
-  ./bin/textgen examples/weblibs/prince.txt examples/weblibs/wordlists --seed 5
+  $GOPATH/bin/textgen examples/weblibs/prince.txt examples/weblibs/wordlists --seed 5
 ```
 
 And passing in a specific value to override a wordlist entirely:
 
 ```bash
-  ./bin/textgen examples/weblibs/prince.txt examples/weblibs/wordlists --value "malename:Johnny Five"
+  $GOPATH/bin/textgen examples/weblibs/prince.txt examples/weblibs/wordlists --value "malename:Johnny Five"
 ```
 
 What about an example of more complexiousness?  Say, for instance, a
@@ -115,7 +114,7 @@ What about an example of more complexiousness?  Say, for instance, a
 example, "story":
 
 ```bash
-  ./bin/textgen examples/story/story.txt examples/story/wordlists/
+  $GOPATH/bin/textgen examples/story/story.txt examples/story/wordlists/
 ```
 
 You might get a story like this:
