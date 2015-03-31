@@ -5,7 +5,7 @@ SRCS=cmd/textgen/main.go \
 	pkg/filter/*.go \
 	pkg/filter/substitution/*.go
 
-.PHONY : all format clean lint
+.PHONY: all clean format lint test
 
 all: bin/textgen
 
