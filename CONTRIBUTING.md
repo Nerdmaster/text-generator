@@ -79,8 +79,16 @@ Don't like it?  Go elsewhere.
   * Don't blame me, this is due to the insanity of what could have been a good
     language.  Go discourages local importing of packages, opting instead for
     URLs (namespaces, but they're URLs if you want `go get` to work).
-  * You can replace the `go get` with a clone if you don't mind mucking with
-    your go path manually, or creating a symlink, or something.
+* **OR** if you have GNU Make or similar, you can do this a bit more easily:
+  * Grab the source however you like - `go get`, clone `https://github.com/Nerdmaster/text-generator`,
+    or fork and clone your copy of the repo
+  * Switch to the repo's directory
+  * Create a project-specific GOPATH, e.g., `export GOPATH=/tmp/nerdgotext`
+    * This is *usually* optional, but may be necessary in some edge cases, such
+      as if you have a conflicting version of a dependency, or you already have
+      the real `go.nerdbucket.com/text` package.  It can also be useful just
+      to help keep your gopath cleaner.
+  * Set up dependencies: `make alldeps`
 * Create a topic branch *based on develop*
   * I like hyphens and all lowercase for branch names.  You want to contribute?
     Then you do, too.  `feature/foo-bar`, not `feature/FooBar`
@@ -100,4 +108,4 @@ Don't like it?  Go elsewhere.
   * I'd prefer you put this in the pull request and not the actual commit
     history if you don't have a good reason for it
 * Make sure you have added tests if it seems appropriate to do so
-* Run *all* the tests to assure nothing else was accidentally broken
+* Run *all* the tests to assure nothing else was accidentally broken (`make test`)
