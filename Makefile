@@ -1,3 +1,5 @@
+include go.vars.mk
+
 SRCS=cmd/textgen/main.go \
 	pkg/stringlist/*.go \
 	pkg/template/*.go \
@@ -9,7 +11,7 @@ SRCS=cmd/textgen/main.go \
 
 all: bin/textgen
 
-bin/textgen: $(SRCS)
+bin/textgen: $(ALLDEPS) $(SRCS)
 	go build -o ./bin/textgen ./cmd/textgen
 
 clean:
@@ -23,3 +25,5 @@ lint:
 
 test:
 	go test ./pkg/...
+
+include go.rules.mk
