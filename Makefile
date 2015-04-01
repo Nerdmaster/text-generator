@@ -1,3 +1,10 @@
+all: bin/textgen
+
+go.vars.mk: makedeps.go
+	go run ./makedeps.go
+go.rules.mk: makedeps.go
+	go run ./makedeps.go
+
 include go.vars.mk
 
 SRCS=cmd/textgen/main.go \
@@ -8,8 +15,6 @@ SRCS=cmd/textgen/main.go \
 	pkg/filter/substitution/*.go
 
 .PHONY: all clean format lint test
-
-all: bin/textgen
 
 bin/textgen: $(ALLDEPS) $(SRCS)
 	go build -o ./bin/textgen ./cmd/textgen
