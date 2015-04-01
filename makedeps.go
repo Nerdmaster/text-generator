@@ -51,6 +51,9 @@ func main() {
 	rules.WriteLn(magic)
 	rules.WriteLn("")
 
+	rules.WriteLn(".PHONY: alldeps")
+	rules.WriteLn("alldeps: $(ALLDEPS)")
+	rules.WriteLn("")
 	rules.WriteLn("# We only depend on a file within the project; if we just depend on our")
 	rules.WriteLn("# project's symlink, *any* change to the directory triggers a build")
 	rules.WriteLn("$(SYMLINK_EXISTS):")
