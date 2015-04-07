@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/jessevdk/go-flags"
+	"go.nerdbucket.com/text/pkg/filter/iafix"
 	"go.nerdbucket.com/text/pkg/filter/substitution"
 	"go.nerdbucket.com/text/pkg/generator"
 	"go.nerdbucket.com/text/pkg/template"
@@ -62,6 +63,7 @@ e.g.: --value "nameofboy:Nerd Master"`
 
 	buildWordlists(subFilter, args[1])
 	t.AddFilter(subFilter)
+	t.AddFilter(iafix.New())
 
 	// Load overrides
 	for name, value := range opts.StringListOverride {
