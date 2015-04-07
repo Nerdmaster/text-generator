@@ -76,7 +76,7 @@ Don't like it?  Go elsewhere.
   * `git remote add origin git@github.com:YOURNAME/text.git`
   * `git checkout develop`
   * `git pull origin develop`
-  * Don't blame me, this is due to the insanity of what could have been a good
+  * Don't blame me, this is due to the insanity of what is otherwise a decent
     language.  Go discourages local importing of packages, opting instead for
     URLs (namespaces, but they're URLs if you want `go get` to work).
 * **OR** if you have GNU Make or similar, you can do this a bit more easily:
