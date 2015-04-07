@@ -3,10 +3,12 @@ package main
 import (
 	"fmt"
 	"github.com/jessevdk/go-flags"
+	"go.nerdbucket.com/text/pkg/filter/iafix"
+	"go.nerdbucket.com/text/pkg/filter/substitution"
+	"go.nerdbucket.com/text/pkg/generator"
+	"go.nerdbucket.com/text/pkg/template"
 	"io/ioutil"
 	"math/rand"
-	"nerdbucket.com/go/text-generator/lib/stringlist"
-	"nerdbucket.com/go/text-generator/lib/template"
 	"os"
 	"path"
 	"path/filepath"
@@ -53,11 +55,19 @@ e.g.: --value "nameofboy:Nerd Master"`
 		os.Exit(1)
 	}
 
-	buildWordlists(t, args[1])
+	subFilter := substitution.New()
+	subFilter.NullGeneratorFactory = func(id string) generator.Generator {
+		fmt.Printf("ERROR: Requested generator, '%s', does not exist", id)
+		return substitution.MakeNullGenerator(id)
+	}
 
-	// Load overrides into SingleValueGenerators
+	buildWordlists(subFilter, args[1])
+	t.AddFilter(subFilter)
+	t.AddFilter(iafix.New())
+
+	// Load overrides
 	for name, value := range opts.StringListOverride {
-		t.Generators[name] = &template.SingleValueGenerator{Value: value}
+		subFilter.SetValue(name, value)
 	}
 
 	// If no seed was passed in, generate one
@@ -70,7 +80,7 @@ e.g.: --value "nameofboy:Nerd Master"`
 	fmt.Println(t.Execute())
 }
 
-func buildWordlists(t *template.Template, dirname string) {
+func buildWordlists(subFilter *substitution.Substitution, dirname string) {
 	// Read in all *.txt files to populate string lists
 	dataFiles, err := filepath.Glob(fmt.Sprintf("%s/*.txt", dirname))
 	if err != nil {
@@ -83,8 +93,8 @@ func buildWordlists(t *template.Template, dirname string) {
 		fileBytes, _ := ioutil.ReadFile(file)
 		fileData := string(fileBytes)
 		listname := strings.Replace(path.Base(file), ".txt", "", -1)
-		list := stringlist.MakeRandomizer()
-		t.Generators[listname] = list
+		list := generator.MakeRandom()
+		subFilter.SetGenerator(listname, list)
 
 		for _, str := range strings.Split(fileData, "\n") {
 			if strings.TrimSpace(str) != "" {

@@ -16,13 +16,24 @@ double-curly-braces is parsed, reading strings from a file of the same name in
 the wordlist directory.  i.e., if your template has {{noun}} in it, a random
 line from [wordlist directory]/noun.txt will be inserted in its place.
 
+Word lists are always lowercased.  Even if your template has {{nOUn}}, the file
+will still be noun.txt.  However, there are a few rules which are followed when
+the case matches certain patterns:
+
+- If the substitution name ("noun" in this case) is all-lowercase, the value
+  pulled from the word list is left as-is
+- If the substitution name is all-caps ("NOUN"), the value pulled from the word
+  list will be all-caps
+- If the substitution name's first letter is uppercase, but it isn't all caps,
+  the first letter in the word list value will be uppercased.
+
 Text will be parsed forever, until there are no occurrences of double curly
 braces.  This can be awesome for building random stories procedurally, as you
 can start with {{sentence-1}} and within sentence-1.txt, you can have various
 ways of writing a similar opening sentence with other random variables:
 
-    It was a {{adjective}} and stormy night.
-    Lightning etched it was across the {{adjective}} sky.
+    It was a/an {{adjective}} and stormy night.
+    Lightning etched its way across the {{adjective}} sky.
 
 You could do something similar with an entire story, creating a slightly
 different version of the same general narrative.  If I get a better system in
@@ -32,6 +43,13 @@ MOST AMAZING MADLIBS-LIKE EXPERIENCE EVER.
 
 But this "parse all the curlies out" logic can also bite you - e.g., if a file
 called "adjective.txt" exists and has {{adjective}} in it.  Don't do that.
+
+After all substitutions are processed, the text is scanned for "a/an", and the
+appropriate indefinite article is put in its place.
+
+The same capitalization rules as above exist for indefinite articles; e.g.,
+"A/an" will be replaced either with "A" or "An".  "A/AN" will be replace with
+either "A" or "AN".
 
 ### Word lists
 
@@ -81,22 +99,21 @@ Check out the source code and try out the example from a sweet, sweet weblib on
 yours truly's website's games's page:
 
 ```bash
-  git clone https://github.com/Nerdmaster/text-generator.git
-  cd text-generator
-  make
-  ./bin/textgen examples/weblibs/prince.txt examples/weblibs/wordlists
+  go get go.nerdbucket.com/text/cmd/textgen
+  cd $GOPATH/src/go.nerdbucket.com/text
+  $GOPATH/bin/textgen examples/weblibs/prince.txt examples/weblibs/wordlists
 ```
 
 Using a specific seed for reproducible results:
 
 ```bash
-  ./bin/textgen examples/weblibs/prince.txt examples/weblibs/wordlists --seed 5
+  $GOPATH/bin/textgen examples/weblibs/prince.txt examples/weblibs/wordlists --seed 5
 ```
 
 And passing in a specific value to override a wordlist entirely:
 
 ```bash
-  ./bin/textgen examples/weblibs/prince.txt examples/weblibs/wordlists --value "malename:Johnny Five"
+  $GOPATH/bin/textgen examples/weblibs/prince.txt examples/weblibs/wordlists --value "malename:Johnny Five"
 ```
 
 What about an example of more complexiousness?  Say, for instance, a
@@ -104,7 +121,7 @@ What about an example of more complexiousness?  Say, for instance, a
 example, "story":
 
 ```bash
-  ./bin/textgen examples/story/story.txt examples/story/wordlists/
+  $GOPATH/bin/textgen examples/story/story.txt examples/story/wordlists/
 ```
 
 You might get a story like this:

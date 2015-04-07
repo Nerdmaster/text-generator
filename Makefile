@@ -1,15 +1,34 @@
-SRCS=cmd/textgen/main.go lib/stringlist/*.go lib/template/*.go
-
-.PHONY : all format clean
-
 all: bin/textgen
 
-bin/textgen: $(SRCS)
-	mkdir -p bin
+go.vars.mk: makedeps.go
+	go run ./makedeps.go
+go.rules.mk: makedeps.go
+	go run ./makedeps.go
+
+include go.vars.mk
+
+SRCS=cmd/textgen/main.go \
+	pkg/stringlist/*.go \
+	pkg/template/*.go \
+	pkg/generator/*.go \
+	pkg/filter/*.go \
+	pkg/filter/substitution/*.go
+
+.PHONY: all clean format lint test
+
+bin/textgen: $(ALLDEPS) $(SRCS)
 	go build -o ./bin/textgen ./cmd/textgen
 
 clean:
-	rm ./bin/*
+	rm -r ./bin
 
 format:
 	find . -name "*.go" | xargs gofmt -l -w -s
+
+lint:
+	golint ./pkg/...
+
+test:
+	go test ./pkg/...
+
+include go.rules.mk
