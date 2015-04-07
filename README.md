@@ -32,7 +32,7 @@ braces.  This can be awesome for building random stories procedurally, as you
 can start with {{sentence-1}} and within sentence-1.txt, you can have various
 ways of writing a similar opening sentence with other random variables:
 
-    It was a {{adjective}} and stormy night.
+    It was a/an {{adjective}} and stormy night.
     Lightning etched its way across the {{adjective}} sky.
 
 You could do something similar with an entire story, creating a slightly
@@ -43,6 +43,13 @@ MOST AMAZING MADLIBS-LIKE EXPERIENCE EVER.
 
 But this "parse all the curlies out" logic can also bite you - e.g., if a file
 called "adjective.txt" exists and has {{adjective}} in it.  Don't do that.
+
+After all substitutions are processed, the text is scanned for "a/an", and the
+appropriate indefinite article is put in its place.
+
+The same capitalization rules as above exist for indefinite articles; e.g.,
+"A/an" will be replaced either with "A" or "An".  "A/AN" will be replace with
+either "A" or "AN".
 
 ### Word lists
 
