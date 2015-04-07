@@ -70,7 +70,7 @@ here to kill you for being so {{adjective}}.
 Prince {{$boy}}: Oh, sorry.  I thought you were the daughter of that farmer I
 brutally {{verbed}} just last winter.  Carry on, then.
 
-{{$girl}} (killing {{$boy}}): Right.  {{exclamation}}!!
+{{$girl}} (killing {{$boy}}): Right.  {{EXCLAMATION}}!!
 
 
 

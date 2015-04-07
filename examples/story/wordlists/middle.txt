@@ -1,4 +1,4 @@
-Suddenly, I felt a/an {{adjective}} shiver go up my spine, and the fire simply ceased to exist!  {{emotion}} engulfed my {{noun}}, just as the magic 8-ball had foretold.
+Suddenly, I felt a/an {{adjective}} shiver go up my spine, and the fire simply ceased to exist!  {{Emotion}} engulfed my {{noun}}, just as the magic 8-ball had foretold.
 Despite having just added {{number}} dry logs to the fire, it abrubtly died.  I panicked and cried out in {{emotion}}.
-I was reading one of my favorite pop-up books, "The {{noun}} and the {{noun}}", when the fire went out.  I sobbed for hours, terrified, and screamed for my mommy.
+I was reading one of my favorite pop-up books, "The {{Noun}} and the {{Noun}}", when the fire went out.  I sobbed for hours, terrified, and screamed for my mommy.
 Then, the fire simply stopped.  There's no other way to put it.  I sat there in the cold, dark, {{adjective}} room and figured I had no more then {{number}} seconds before I succumbed to insanity.
