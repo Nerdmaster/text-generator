@@ -12,7 +12,8 @@ SRCS=cmd/textgen/main.go \
 	pkg/template/*.go \
 	pkg/generator/*.go \
 	pkg/filter/*.go \
-	pkg/filter/substitution/*.go
+	pkg/filter/substitution/*.go \
+	pkg/filter/iafix/*.go
 
 .PHONY: all clean format lint test
 
