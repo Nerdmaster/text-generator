@@ -7,7 +7,7 @@ import (
 
 // Format for variations - at least one pipe must be present, and text between
 // pipes becomes the possible values.
-var pattern = regexp.MustCompile(`{{(([^{}]*|[^{}]*)+)}}`)
+var pattern = regexp.MustCompile(`{{(([^{}]*\|[^{}]*)+)}}`)
 
 // The finder is responsible for finding variations and pulling out the pieces
 // for the filter to use
