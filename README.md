@@ -164,6 +164,7 @@ piped in or given in a flag:
   # Ooh an example of the Makefile!
   make bin/textvary
   bin/textvary --text "This is {{not |}}awesome"
+  echo "This is {{not |}}awesome" | bin/textvary
 ```
 
 Thanks?

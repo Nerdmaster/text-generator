@@ -34,9 +34,11 @@ a single item within pipe-delimited values inside double-curly-braces.
 		usage()
 	}
 
+	fromStdin := false
 	if opts.Text == "" {
 		stat, _ := os.Stdin.Stat()
 		if (stat.Mode() & os.ModeCharDevice) == 0 {
+			fromStdin = true
 			bytes, err := ioutil.ReadAll(os.Stdin)
 			if err != nil {
 				fmt.Printf("Error reading from stdin: %s\n\n", err)
@@ -59,5 +61,10 @@ a single item within pipe-delimited values inside double-curly-braces.
 	rand.Seed(opts.Seed)
 
 	v := variation.New()
-	fmt.Println(v.Filter(opts.Text))
+
+	if fromStdin {
+		fmt.Print(v.Filter(opts.Text))
+	} else {
+		fmt.Println(v.Filter(opts.Text))
+	}
 }
