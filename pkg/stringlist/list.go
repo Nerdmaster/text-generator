@@ -12,6 +12,11 @@ func New(size int) *List {
 	return &List{data: make([]string, size)}
 }
 
+// FromSlice simply wraps a List around a pre-existing slice of strings
+func FromSlice(strings []string) *List {
+	return &List{data: strings}
+}
+
 // Append adds a string to the end of the list
 func (list *List) Append(item string) {
 	list.data = append(list.data, item)

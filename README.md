@@ -92,8 +92,18 @@ parameters!
 I call this "stabby named parameters".  It's a bit like Ruby lambdas, except I
 won't ask you to lie about it being a good syntax.
 
+### Variations
+
+For simpler situations, where you don't really need to have word lists and all
+that new-fangled nonsense, you can use the variation filter!  This allows a
+pipe-delimited list to act as an in-line wordlist.  For instance,
+`{{foo|bar|baz}}` will be parsed into either "foo", "bar", or "baz".  (Sorry,
+potheads (especially all y'all in Oregon), but not that kind of pipe)
+
 Example
 -----
+
+### Template and all filters
 
 Check out the source code and try out the example from a sweet, sweet weblib on
 yours truly's website's games's page:
@@ -143,5 +153,20 @@ But it could also be RADICALLY DIFFERENT, such as:
 > better than being in a cold, dark, silly room during a storm.
 
 OMFG THE SAME GENERAL STORY WITH DIFFERENT SENTENCE STRUCTURE THIS IS AMAZING.
+
+### Single filter
+
+As a simpler example, you can see how a single-filter command-line application
+could be built by looking at the `cmd/textvary` command.  The input can be
+piped in or given in a flag:
+
+```bash
+  # Ooh an example of the Makefile!
+  make bin/textvary
+  bin/textvary --text "This is {{not |}}awesome"
+```
+
+Thanks?
+-----
 
 I hope you enjoy this {{adjective}} {{noun}} I've created for you.

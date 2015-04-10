@@ -3,7 +3,7 @@ package substitution // import "go.nerdbucket.com/text/pkg/filter/substitution"
 import "regexp"
 
 // Format for substitutions
-var pattern = regexp.MustCompile(`{{([^}]*)}}`)
+var pattern = regexp.MustCompile(`{{([^}|]+)}}`)
 
 // The finder is responsible for finding substitutions and pulling out the
 // pieces for the filter to use
