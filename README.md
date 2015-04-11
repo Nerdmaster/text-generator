@@ -6,8 +6,13 @@ for my coworkers.  I think it's my first time stealing my own work for a
 project.  It was educational, but useless.  Now it's a general-case text
 generator... and still pretty useless.
 
-I'm hoping to have somewhat reusable libraries as part of this project, but the
-command-line interface is what I'm focusing on for now.
+### We have APIs!
+
+Look at [cmd/textgen](cmd/textgen) for a fairly full-featured example, or
+[cmd/textvary](cmd/textvary) for a simpler example.  You won't find easy to
+read docs online because my project still has some issues with directories or
+format of comments or who knows what.  Not worth fixing at the moment, though
+PRs are welcome.
 
 ### Parsing templates
 
