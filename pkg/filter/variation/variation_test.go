@@ -19,7 +19,7 @@ func TestSimple(t *testing.T) {
 
 	var seed int64
 	for index, s := range outputs {
-		seed = int64(index+1)
+		seed = int64(index + 1)
 		rand.Seed(seed)
 		assertEqualS(s, v.Filter(input), fmt.Sprintf("Random text seed %d", seed), t)
 	}
@@ -42,7 +42,7 @@ func TestNested(t *testing.T) {
 
 	var seed int64
 	for index, s := range outputs {
-		seed = int64(index+1)
+		seed = int64(index + 1)
 		rand.Seed(seed)
 		assertEqualS(s, v.Filter(input), fmt.Sprintf("Random text seed %d", seed), t)
 	}
