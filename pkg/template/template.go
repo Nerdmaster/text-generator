@@ -1,7 +1,7 @@
-package template // import "go.nerdbucket.com/text/pkg/template"
+package template // import "github.com/Nerdmaster/text-generator/pkg/template"
 
 import (
-	"go.nerdbucket.com/text/pkg/filter"
+	"github.com/Nerdmaster/text-generator/pkg/filter"
 	"io/ioutil"
 )
 

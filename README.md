@@ -114,8 +114,8 @@ Check out the source code and try out the example from a sweet, sweet weblib on
 yours truly's website's games's page:
 
 ```bash
-  go get go.nerdbucket.com/text/cmd/textgen
-  cd $GOPATH/src/go.nerdbucket.com/text
+  go get github.com/Nerdmaster/text-generator/cmd/textgen
+  cd $GOPATH/src/github.com/Nerdmaster/text-generator
   $GOPATH/bin/textgen examples/weblibs/prince.txt examples/weblibs/wordlists
 ```
 

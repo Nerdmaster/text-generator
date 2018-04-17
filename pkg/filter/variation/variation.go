@@ -1,7 +1,7 @@
-package variation // import "go.nerdbucket.com/text/pkg/filter/variation"
+package variation // import "github.com/Nerdmaster/text-generator/pkg/filter/variation"
 
 import (
-	"go.nerdbucket.com/text/pkg/stringlist"
+	"github.com/Nerdmaster/text-generator/pkg/stringlist"
 	"strings"
 )
 

@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/jessevdk/go-flags"
-	"go.nerdbucket.com/text/pkg/filter/variation"
+	"github.com/Nerdmaster/text-generator/pkg/filter/variation"
 	"io/ioutil"
 	"math/rand"
 	"os"
