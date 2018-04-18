@@ -1,4 +1,4 @@
-package stringlist // import "go.nerdbucket.com/text/pkg/stringlist"
+package stringlist // import "github.com/Nerdmaster/text-generator/pkg/stringlist"
 
 import "math/rand"
 
@@ -10,6 +10,11 @@ type List struct {
 // New returns an empty list
 func New(size int) *List {
 	return &List{data: make([]string, size)}
+}
+
+// FromSlice simply wraps a List around a pre-existing slice of strings
+func FromSlice(strings []string) *List {
+	return &List{data: strings}
 }
 
 // Append adds a string to the end of the list

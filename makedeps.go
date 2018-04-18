@@ -1,6 +1,6 @@
 // +build ignore
-//
 // This is meant to be run via `go run makedeps.go`, not any compilation process
+
 package main
 
 import (

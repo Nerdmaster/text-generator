@@ -1,4 +1,4 @@
-package iafix // import "go.nerdbucket.com/text/pkg/filter/iafix"
+package iafix // import "github.com/Nerdmaster/text-generator/pkg/filter/iafix"
 
 import (
 	"fmt"
@@ -7,7 +7,7 @@ import (
 
 // IndefiniteArticleFix is a very simple filter solely for replacing occurrences
 // of "a/an" with the proper indefinite article
-type IndefiniteArticleFix struct {}
+type IndefiniteArticleFix struct{}
 
 func New() *IndefiniteArticleFix {
 	return &IndefiniteArticleFix{}
@@ -41,6 +41,7 @@ func fixCase(id, s string) string {
 
 	return s
 }
+
 // Filter finds all double-curly-brace tokens and replaces them with a value
 // from the appropriate generator
 func (iaf *IndefiniteArticleFix) Filter(text string) string {

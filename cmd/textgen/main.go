@@ -3,10 +3,11 @@ package main
 import (
 	"fmt"
 	"github.com/jessevdk/go-flags"
-	"go.nerdbucket.com/text/pkg/filter/iafix"
-	"go.nerdbucket.com/text/pkg/filter/substitution"
-	"go.nerdbucket.com/text/pkg/generator"
-	"go.nerdbucket.com/text/pkg/template"
+	"github.com/Nerdmaster/text-generator/pkg/filter/iafix"
+	"github.com/Nerdmaster/text-generator/pkg/filter/substitution"
+	"github.com/Nerdmaster/text-generator/pkg/filter/variation"
+	"github.com/Nerdmaster/text-generator/pkg/generator"
+	"github.com/Nerdmaster/text-generator/pkg/template"
 	"io/ioutil"
 	"math/rand"
 	"os"
@@ -63,6 +64,7 @@ e.g.: --value "nameofboy:Nerd Master"`
 
 	buildWordlists(subFilter, args[1])
 	t.AddFilter(subFilter)
+	t.AddFilter(variation.New())
 	t.AddFilter(iafix.New())
 
 	// Load overrides

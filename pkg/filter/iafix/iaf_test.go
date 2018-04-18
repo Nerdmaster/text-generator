@@ -1,4 +1,4 @@
-package iafix // import "go.nerdbucket.com/text/pkg/filter/iafix"
+package iafix // import "github.com/Nerdmaster/text-generator/pkg/filter/iafix"
 
 import (
 	"testing"

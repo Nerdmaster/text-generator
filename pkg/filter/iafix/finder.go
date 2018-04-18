@@ -1,4 +1,4 @@
-package iafix // import "go.nerdbucket.com/text/pkg/filter/iafix"
+package iafix // import "github.com/Nerdmaster/text-generator/pkg/filter/iafix"
 
 import "regexp"
 
@@ -44,7 +44,7 @@ func (f *finder) Find() bool {
 
 // Returns the "a/an" text as it was seen (including case)
 func (f *finder) IndefiniteArticleText() string {
-return f.iaText
+	return f.iaText
 }
 
 // Returns the last post-indefinite-article word found

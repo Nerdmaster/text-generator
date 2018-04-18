@@ -6,8 +6,13 @@ for my coworkers.  I think it's my first time stealing my own work for a
 project.  It was educational, but useless.  Now it's a general-case text
 generator... and still pretty useless.
 
-I'm hoping to have somewhat reusable libraries as part of this project, but the
-command-line interface is what I'm focusing on for now.
+### We have APIs!
+
+Look at [cmd/textgen](cmd/textgen) for a fairly full-featured example, or
+[cmd/textvary](cmd/textvary) for a simpler example.  You won't find easy to
+read docs online because my project still has some issues with directories or
+format of comments or who knows what.  Not worth fixing at the moment, though
+PRs are welcome.
 
 ### Parsing templates
 
@@ -92,15 +97,25 @@ parameters!
 I call this "stabby named parameters".  It's a bit like Ruby lambdas, except I
 won't ask you to lie about it being a good syntax.
 
+### Variations
+
+For simpler situations, where you don't really need to have word lists and all
+that new-fangled nonsense, you can use the variation filter!  This allows a
+pipe-delimited list to act as an in-line wordlist.  For instance,
+`{{foo|bar|baz}}` will be parsed into either "foo", "bar", or "baz".  (Sorry,
+potheads (especially all y'all in Oregon), but not that kind of pipe)
+
 Example
 -----
+
+### Template and all filters
 
 Check out the source code and try out the example from a sweet, sweet weblib on
 yours truly's website's games's page:
 
 ```bash
-  go get go.nerdbucket.com/text/cmd/textgen
-  cd $GOPATH/src/go.nerdbucket.com/text
+  go get github.com/Nerdmaster/text-generator/cmd/textgen
+  cd $GOPATH/src/github.com/Nerdmaster/text-generator
   $GOPATH/bin/textgen examples/weblibs/prince.txt examples/weblibs/wordlists
 ```
 
@@ -143,5 +158,21 @@ But it could also be RADICALLY DIFFERENT, such as:
 > better than being in a cold, dark, silly room during a storm.
 
 OMFG THE SAME GENERAL STORY WITH DIFFERENT SENTENCE STRUCTURE THIS IS AMAZING.
+
+### Single filter
+
+As a simpler example, you can see how a single-filter command-line application
+could be built by looking at the `cmd/textvary` command.  The input can be
+piped in or given in a flag:
+
+```bash
+  # Ooh an example of the Makefile!
+  make bin/textvary
+  bin/textvary --text "This is {{not |}}awesome"
+  echo "This is {{not |}}awesome" | bin/textvary
+```
+
+Thanks?
+-----
 
 I hope you enjoy this {{adjective}} {{noun}} I've created for you.
